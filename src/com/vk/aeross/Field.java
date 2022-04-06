@@ -14,6 +14,19 @@ public class Field {
     private final String xSymbol = "×";
     private final String zeroSymbol = "●";
 
+    void drawTable(StringBuilder currentCell, int i) {
+        if(currentCell.length() == 3) {
+            System.out.printf("\n│  %s  │  %s  │  %s  │\n", currentCell.charAt(0), currentCell.charAt(1), currentCell.charAt(2));
+
+            if(i == 2) {
+                System.out.print("└─────┴─────┴─────┘");
+            } else {
+                System.out.print("├─────┼─────┼─────┤");
+            }
+
+        }
+    }
+
     public void drawField() {
         System.out.print("┌─────┬─────┬─────┐");
 
@@ -29,41 +42,32 @@ public class Field {
                     currentCell.append(" ");
                 }
 
-                if(currentCell.length() == 3) {
-                    System.out.printf("\n│  %s  │  %s  │  %s  │\n", currentCell.charAt(0), currentCell.charAt(1), currentCell.charAt(2));
-
-                    if(i == 2) {
-                        System.out.print("└─────┴─────┴─────┘");
-                    } else {
-                        System.out.print("├─────┼─────┼─────┤");
-                    }
-
-                }
-
+                drawTable(currentCell, i);
             }
         }
     }
 
-    void input(int whoAreYou) {
+
+
+
+    void input(int whoAreYou, int x, int y) {
         int playerInput = whoAreYou == 1 ? 1 : 2;
 
-        Scanner in = new Scanner(System.in);
-        System.out.println("Введите координаты: ");
-        String[] playerInputCoords = in.nextLine().split(" ");
-        in.close();
+        if(field[x][y] != 0 ) {
+            field[x][y] = playerInput;
+        } else {
+            System.out.println("Вы не можете переназначить занчиние!");
+        }
 
-        field[Integer.parseInt(playerInputCoords[0])][Integer.parseInt(playerInputCoords[1])] = playerInput;
     }
 
     boolean winOrNot() {
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field[i].length; j++) {
-                if(field[i][i] == field[i+1][i+1] && field[i+1][i+1] == field[i+2][i+2]) {
-                    return true;
-                }
-            }
-        }
-        return  false;
+        return ((field[0][0] == field[1][1] && field[1][1] == field[2][2]) && (field[0][0] != 0 && field[1][1] != 0 && field[2][2] != 0))
+                || ((field[0][2] == field[1][1] && field[1][1] == field[2][0]) && (field[0][2] != 0 && field[1][1] != 0 && field[2][0] != 0))
+                || ((field[0][0] == field[1][0] && field[1][0] == field[2][0]) && (field[0][0] != 0 && field[1][0] != 0 && field[2][0] != 0))
+                || ((field[0][2] == field[1][2] && field[1][2] == field[2][2]) && (field[0][2] != 0 && field[1][2] != 0 && field[2][2] != 0))
+                || ((field[0][0] == field[0][1] && field[0][1] == field[0][2]) && (field[0][0] != 0 && field[0][1] != 0 && field[0][2] != 0))
+                || ((field[2][0] == field[2][1] && field[2][1] == field[2][2]) && (field[2][0] != 0 && field[2][1] != 0 && field[2][2] != 0));
     }
 
 }
