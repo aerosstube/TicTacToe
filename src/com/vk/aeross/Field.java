@@ -48,12 +48,10 @@ public class Field {
     }
 
 
-
-
     void input(int whoAreYou, int x, int y) {
         int playerInput = whoAreYou == 1 ? 1 : 2;
 
-        if(field[x][y] != 0 ) {
+        if(field[x][y] == 0 ) {
             field[x][y] = playerInput;
         } else {
             System.out.println("Вы не можете переназначить занчиние!");
